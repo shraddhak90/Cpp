@@ -1,4 +1,5 @@
 #include<iostream>
+#include <unordered_set>
 #include "Node.h"
 
 class SinglyLinkedList
@@ -10,6 +11,16 @@ class SinglyLinkedList
   SinglyLinkedList() 
   {
     head = NULL;
+  }
+
+  void setHead(Node* node)
+  {
+    head = node;
+  }
+
+  Node* getHead()
+  {
+    return head;
   }
 
   void insertAtBegin(int data);
@@ -27,6 +38,9 @@ class SinglyLinkedList
   void deleteDuplicateFromUnSorted();
   void printReverse();
   void printReverse(Node *);
+  void getMiddle();
+  int getLength();
+  Node* mergeTwoSortedLL(Node* head1, Node* head2);
 };
 
 void SinglyLinkedList::insertAtBegin(int data)
@@ -179,6 +193,24 @@ bool SinglyLinkedList::detectCycle()
     return false;
 }
 
+void SinglyLinkedList::printReverse()
+{
+    printReverse(head);
+}
+
+void SinglyLinkedList::printReverse(Node* node)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+    else
+    {
+        printReverse(node->getNext());
+        std::cout<<node->getData()<<" ";
+    }
+}
+
 void SinglyLinkedList::display()
 {
     Node* temp = head;
@@ -188,6 +220,109 @@ void SinglyLinkedList::display()
         temp = temp->getNext();
     }
     std::cout<<"\n-----------------------------------------\n";
+}
+
+ // 10 -> 20 -> 20 -> 30 -> 40 ->nullptr
+void SinglyLinkedList::deleteDuplicateFromSorted()
+{
+    Node* curr = head;
+
+    while (curr!= nullptr && curr->getNext()!=nullptr)
+    {
+        if (curr->getData() == curr->getNext()->getData())
+        {
+            Node* temp = curr->getNext();
+            curr->setNext(temp->getNext());
+            delete temp;
+        }
+        else
+        {
+            curr =curr->getNext();
+        }
+    }
+}
+
+//20 -> 10 -> 10 -> 50 -> 30 -> nullptr
+
+void SinglyLinkedList::deleteDuplicateFromUnSorted()
+{
+   Node* curr = head;
+   Node* prev = nullptr;
+
+   std::unordered_set<int> seen;
+
+   while(curr != nullptr)
+   {
+     if (seen.count(curr->getData()))
+     {
+        prev->setNext(curr->getNext());
+        delete curr;
+        curr = prev->getNext();
+     }
+     else
+     {
+        seen.insert(curr->getData());
+        prev = curr;
+        curr= curr->getNext();
+     }
+   }
+}
+
+int SinglyLinkedList::getLength()
+{
+    int l =0;
+    Node* trav = head;
+
+    while(trav)
+    {
+        l++;
+        trav = trav->getNext();
+    }
+    return l;
+}
+
+void SinglyLinkedList::getMiddle()
+{
+  Node* trav = head;
+  int length = getLength();
+
+  int mid = length/2;
+  while (mid--)
+  {
+    trav = trav->getNext();
+  }
+  std::cout<<"Middle elementh: "<<trav->getData()<<std::endl;
+}
+
+Node* mergeTwoSortedLL(Node* head1, Node* head2)
+{
+    Node dummy;
+    Node* tail = &dummy;
+
+    while(head1 != nullptr && head2!=nullptr)
+    {
+        if (head1->getData() <= head2->getData())
+        {
+            tail->setNext(head1);
+            head1 = head1->getNext();
+        }
+        else
+        {
+            tail->setNext(head2);
+            head2 = head2->getNext();
+        }
+        tail = tail->getNext();
+    }
+
+    if (head1 != nullptr)
+    {
+        tail->setNext(head1);
+    }
+    if (head2 != nullptr)
+    {
+        tail->setNext(head2);
+    }
+    return dummy.getNext();
 }
 
 int main()
@@ -204,7 +339,7 @@ int main()
     s1.insertAtPos(20, 1);
     s1.display();
 
-    s1.removefrmBegin();
+    /* s1.removefrmBegin();
     s1.display();
 
     s1.removefrmEnd();
@@ -219,5 +354,37 @@ int main()
 
     s1.reverseLL();
     s1.display();
+
+    s1.printReverse();
+
+    s1.reverseLL();
+    s1.display();
+
+    s1.insertAtPos(20, 1);
+    s1.display();
+
+    s1.deleteDuplicateFromSorted();
+    s1.display();
+
+    s1.insertAtBegin(20);
+    s1.display();
+
+    s1.deleteDuplicateFromUnSorted();
+    s1.display();
+
+    s1.insertAtEnd(70);
+
+    s1.getMiddle(); */
+
+    SinglyLinkedList s2, mergedList;
+    s2.insertAtEnd(80);
+    s2.insertAtEnd(90);
+    s2.insertAtEnd(100);
+    s2.display();
+
+
+    Node* s3 = mergeTwoSortedLL(s1.getHead(), s2.getHead());
+    mergedList.setHead(s3);
+    mergedList.display();
     return 0;
 }
