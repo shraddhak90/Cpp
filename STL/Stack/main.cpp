@@ -3,7 +3,7 @@
 
 int main()
 {
-    StackClass s1;
+    /* StackClass s1;
     s1.push(1);
     s1.push(2);
     s1.push(3);
@@ -17,7 +17,9 @@ int main()
 
     s1.pop();
     std::cout<<"Element: "<<s1.peek()<<std::endl;
+    std::cout <<"Hello World!"<<std::endl; */
+
     
 
-    return 0;
+    return 0; 
 }

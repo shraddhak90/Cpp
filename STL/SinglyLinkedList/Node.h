@@ -12,6 +12,12 @@ public:
     data = 0;
   }
 
+  Node( int d)
+  {
+    next = nullptr;
+    data =d;
+  }
+
   void setNext(Node* n)
   {
     next = n;

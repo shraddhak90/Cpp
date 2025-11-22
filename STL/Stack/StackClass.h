@@ -10,11 +10,11 @@ class StackClass
 
     public:
     StackClass();
-    StackClas(int size);
+    StackClass(int size);
     void push(int data);
     int pop();
     //int top();
     int peek();
     bool isEmpty();
     bool isFull();
-}
+};

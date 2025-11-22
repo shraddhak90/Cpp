@@ -14,7 +14,7 @@ StackClass::StackClass(int s)
 
 bool StackClass::isFull()
 {
-  if (top = size -1)
+  if (top == size -1)
   {
     return true;
   }

@@ -41,6 +41,9 @@ class SinglyLinkedList
   void getMiddle();
   int getLength();
   Node* mergeTwoSortedLL(Node* head1, Node* head2);
+  Node* AddTwoLinkedLists(Node* head1, Node* head2);
+  int nthNodeFromEnd(Node* head, int n);
+  bool isPalindrome(Node* head);
 };
 
 void SinglyLinkedList::insertAtBegin(int data)
@@ -161,33 +164,32 @@ void SinglyLinkedList::removefrmPos(int pos)
 
 void SinglyLinkedList::reverseLL()
 {
+    Node* prev = nullptr;
+    Node* next = nullptr;
     Node* curr = head;
-    Node* next=nullptr;
-    Node* prev=nullptr;
 
-    while (curr!=nullptr)
+    while(curr!= nullptr)
     {
         next = curr->getNext();
         curr->setNext(prev);
         prev = curr;
         curr = next;
     }
-    head = prev;
 }
 
 bool SinglyLinkedList::detectCycle()
 {
     Node* slow = head;
-    Node* fast = head;
+    Node* fast = fast = head;
 
-    while (fast!=nullptr && fast->getNext() !=nullptr)
+    while( slow && fast && fast->getNext())
     {
-        slow = slow->getNext();
+        slow= slow->getNext();
         fast = fast->getNext()->getNext();
 
-        if (slow == fast)
+        if (slow== fast)
         {
-          return true;
+            return true
         }
     }
     return false;
@@ -325,6 +327,128 @@ Node* mergeTwoSortedLL(Node* head1, Node* head2)
     return dummy.getNext();
 }
 
+Node* MergeTwoSortedLists(Node* head1, Node* head2)
+{
+    if (head1 == nullptr) 
+    {
+        return head2
+    }
+    if (head2 == nullptr)
+    {
+        return head1;
+    }
+
+    if (head1->getData() <= head2->getData())
+    {
+        head1->setNext(MergeTwoSortedLists(head1->getNext(), head2));
+        return head1;
+    }
+    else
+    {
+        head2->setNext(MergeTwoSortedLists(head2->getNext(), head1));
+        return head2;
+    }
+}
+
+Node* SinglyLinkedList::AddTwoLinkedLists(Node* head1, Node* head2)
+{
+    head1 = reverseLL(head1);
+    head2 = reverseLL(head2);
+    
+    Node* sum = nullptr;
+    int carry =0;
+
+    while (head1 != nullptr || head2 != nullptr || carry !=0)
+    {
+        int newval = carry;
+
+        if (head1)
+        {
+            newval += head1->getData();
+            head1 = head1->getNext();
+        }
+
+        if (head2)
+        {
+            newval+= head2->getData();
+            head2 = head2->getNext();
+        }
+
+        carry = newval /10;
+
+        newval = newval % 10;
+
+        Node* newNode = new Node(newval);
+        newNode->setNext(sum);
+        sum = newNode;
+    }
+
+    //Remove leading zeros if any
+
+    while (sum!= nullptr ** sum->getData()== 0)
+    {
+        Node* temp = sum;
+        sum = sum->getNext();
+        delete temp;
+    }
+
+    //if result is empty return single node with 0
+    if (sum == nullptr)
+    {
+        return new Node(0);
+    }
+    return sum;
+}
+
+int SinglyLinkedList::nthNodeFromEnd(Node* head, int n)
+{
+    Node* mainPtr = head;
+    Node* refPtr = head;
+
+    for (int i = 1 ;i <n ;i++)
+    {
+        refPtr = refPtr->getNext();
+
+        if (refPtr == nullptr)
+        {
+            return -1;
+        }
+    }
+
+    while (refPtr->getNext != nullptr)
+    {
+        mainPtr = mainPtr->getNext();
+        refPtr = refPtr->getNext();
+    }
+
+    return mainPtr->getData();
+}
+
+bool SinglyLinkedList::isPalindrome(Node* head)
+{
+    Node* curr  = head;
+    std::stack<int> s;
+
+    while (curr != nullptr)
+    {
+       s.push(curr->getData())
+       curr = curr->getNext();
+    }
+
+    while (head ! = nullptr)
+    {
+        int top = s.top();
+        s.pop();
+
+        if (head->getData()!= top)
+        {
+            return false;
+        }
+        head = head->getNext();
+    }
+    return true;
+}
+
 int main()
 {
     SinglyLinkedList s1;
@@ -350,12 +474,12 @@ int main()
     s1.display();
 
     s1.removefrmPos(3);
-    s1.display();
+    s1.display(); */
 
     s1.reverseLL();
     s1.display();
 
-    s1.printReverse();
+    /* s1.printReverse();
 
     s1.reverseLL();
     s1.display();
