@@ -10,6 +10,7 @@ using namespace std;
 
 int main()
 {
+    //socket() -> bind() -> listen() -> accept() -> recv/read()
     //create server socket
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket < 0) {

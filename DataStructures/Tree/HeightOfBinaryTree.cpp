@@ -18,7 +18,7 @@ int height(Node* root)
 }
 
 int findParent(Node* root, int target, int parent)
-  {
+{
     if (root == nullptr)
     {
       return -1;

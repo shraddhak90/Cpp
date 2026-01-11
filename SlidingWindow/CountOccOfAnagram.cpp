@@ -3,6 +3,8 @@
 #include <unordered_map>
 using namespace std;
 
+//string txt = "forxxorfxdofr";
+//string pat = "for";
 int search(string &pat, string &txt) 
 {
     int i=0, j=0;

@@ -8,6 +8,7 @@ using namespace std;
 
 int main()
 {
+    //socket() -> connect() -> send()/write()
     //create client socket
     int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket < 0) {

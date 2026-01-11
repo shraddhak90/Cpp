@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <mutex>
 using namespace std;
 
 class LRUCache
@@ -21,6 +22,7 @@ class LRUCache
   public:
     Node* head, *tail; // head and tail for MRU and LRU
     unordered_map<int, Node*> cache;
+    mutex mtx;
 
     //Remove node from tail --> LRU removal
     void removeNode(Node* node)
@@ -52,6 +54,7 @@ class LRUCache
     //To get key from cache, and Move it to MRU
     int get(int key)
     {
+        lock_guard<mutex> lock(mtx);
         if (cache.find(key)== cache.end())
         {
             return -1;
@@ -67,6 +70,7 @@ class LRUCache
     //If capacity is full, then remove from LRU and add new entry to front
     void put(int k, int v)
     {
+        lock_guard<mutex> lock(mtx);
         //If key exists, update and move to MRU
         if (cache.find(k) != cache.end())
         {

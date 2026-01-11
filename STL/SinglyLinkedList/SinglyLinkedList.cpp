@@ -1,5 +1,6 @@
 #include<iostream>
 #include <unordered_set>
+#include <stack>
 #include "Node.h"
 
 class SinglyLinkedList
@@ -30,7 +31,7 @@ class SinglyLinkedList
   void removefrmEnd();
   void removefrmPos(int pos);
   void display();
-  void reverseLL();
+  void reverseLL(Node* head);
   bool detectCycle();
   void insertInAsc(int data);
   void deleteDuplicate();
@@ -44,6 +45,7 @@ class SinglyLinkedList
   Node* AddTwoLinkedLists(Node* head1, Node* head2);
   int nthNodeFromEnd(Node* head, int n);
   bool isPalindrome(Node* head);
+  void deleteNodeWithoutHead(Node* node);
 };
 
 void SinglyLinkedList::insertAtBegin(int data)
@@ -162,7 +164,7 @@ void SinglyLinkedList::removefrmPos(int pos)
     delete trav;
 }
 
-void SinglyLinkedList::reverseLL()
+void SinglyLinkedList::reverseLL(Node* head)
 {
     Node* prev = nullptr;
     Node* next = nullptr;
@@ -189,7 +191,7 @@ bool SinglyLinkedList::detectCycle()
 
         if (slow== fast)
         {
-            return true
+            return true;
         }
     }
     return false;
@@ -287,6 +289,7 @@ void SinglyLinkedList::getMiddle()
 {
   Node* trav = head;
   int length = getLength();
+    
 
   int mid = length/2;
   while (mid--)
@@ -331,7 +334,7 @@ Node* MergeTwoSortedLists(Node* head1, Node* head2)
 {
     if (head1 == nullptr) 
     {
-        return head2
+        return head2;
     }
     if (head2 == nullptr)
     {
@@ -352,8 +355,8 @@ Node* MergeTwoSortedLists(Node* head1, Node* head2)
 
 Node* SinglyLinkedList::AddTwoLinkedLists(Node* head1, Node* head2)
 {
-    head1 = reverseLL(head1);
-    head2 = reverseLL(head2);
+    reverseLL(head1);
+    reverseLL(head2);
     
     Node* sum = nullptr;
     int carry =0;
@@ -385,7 +388,7 @@ Node* SinglyLinkedList::AddTwoLinkedLists(Node* head1, Node* head2)
 
     //Remove leading zeros if any
 
-    while (sum!= nullptr ** sum->getData()== 0)
+    while (sum!= nullptr && sum->getData()== 0)
     {
         Node* temp = sum;
         sum = sum->getNext();
@@ -405,6 +408,9 @@ int SinglyLinkedList::nthNodeFromEnd(Node* head, int n)
     Node* mainPtr = head;
     Node* refPtr = head;
 
+    // n =3
+    // 1 -> 2-> 3-> 4-> 5 -> nullptr
+
     for (int i = 1 ;i <n ;i++)
     {
         refPtr = refPtr->getNext();
@@ -415,7 +421,7 @@ int SinglyLinkedList::nthNodeFromEnd(Node* head, int n)
         }
     }
 
-    while (refPtr->getNext != nullptr)
+    while (refPtr->getNext() != nullptr)
     {
         mainPtr = mainPtr->getNext();
         refPtr = refPtr->getNext();
@@ -431,11 +437,11 @@ bool SinglyLinkedList::isPalindrome(Node* head)
 
     while (curr != nullptr)
     {
-       s.push(curr->getData())
+       s.push(curr->getData());
        curr = curr->getNext();
     }
 
-    while (head ! = nullptr)
+    while (head != nullptr)
     {
         int top = s.top();
         s.pop();
@@ -447,6 +453,20 @@ bool SinglyLinkedList::isPalindrome(Node* head)
         head = head->getNext();
     }
     return true;
+}
+
+// 10 20 30 40 50   node = 20
+void SinglyLinkedList::deleteNodeWithoutHead(Node* node)
+{
+    if (node == nullptr || node->getNext()== nullptr)
+    {
+        return;
+    }
+
+    Node* temp = node->getNext();
+    node->setData(node->getNext()->getData());
+    node->setNext(node->getNext()->getNext());
+    delete temp;
 }
 
 int main()
@@ -476,8 +496,8 @@ int main()
     s1.removefrmPos(3);
     s1.display(); */
 
-    s1.reverseLL();
-    s1.display();
+    //s1.reverseLL();
+    //s1.display();
 
     /* s1.printReverse();
 
@@ -509,6 +529,9 @@ int main()
 
     Node* s3 = mergeTwoSortedLL(s1.getHead(), s2.getHead());
     mergedList.setHead(s3);
+    mergedList.display();
+
+    mergedList.deleteNodeWithoutHead(mergedList.getHead()->getNext());
     mergedList.display();
     return 0;
 }

@@ -3,6 +3,8 @@
 #include <queue>
 using namespace std;
 
+//Input: arr[]= [2, 3, 1, 4],  k = 2 
+//Output: [1, 2, 3, 4]
 vector<int> sortKSortedArry(int arr[], int n, int k)
 {
     priority_queue<int , vector<int>, greater<int>> minHeap;

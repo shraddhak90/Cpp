@@ -33,7 +33,7 @@ vector<int> firstNegInt(vector<int>& arr, int k)
                 negNums.push_back(lt.front());
                 if (arr[i] == lt.front())
                 {
-                lt.pop_front();    
+                    lt.pop_front();    
                 }
             }
             i++;
@@ -52,6 +52,7 @@ int main()
     for (int num : result) {
         cout << num << " ";
     }
+    // o/p : -8 0 -6 -6
     cout << endl;
     return 0;
 }

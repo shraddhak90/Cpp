@@ -15,8 +15,8 @@ void producer()
   for (int i =0; i< maxBufferSize;i++)
   {
     std::unique_lock<std::mutex> lock(m);
-	queue.push(i);
-	std::cout << "Produced " << i<< std::endl;
+	  queue.push(i);
+	  std::cout << "Produced " << i<< std::endl;
 	lock.unlock();
     cv.notify_one();
   }
